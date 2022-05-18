@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI_TOP_PROJECT", "PI_TOP_PROJECT\PI_TOP_PROJECT.csproj", "{1067A67E-9A77-47EA-85DF-F5C14381B35F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI_CHECK_VKR", "PI_TOP_PROJECT\PI_CHECK_VKR.csproj", "{1067A67E-9A77-47EA-85DF-F5C14381B35F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
