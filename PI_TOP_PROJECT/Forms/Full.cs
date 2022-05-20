@@ -16,8 +16,13 @@ namespace PI_TOP_PROJECT.Forms
 {
     public partial class Full : Form
     {
+        int pageCount = 0;
+        int error = 0;
+        int minStr = 50;
+
         private OpenFileDialog OPF;
         private DocX doc;
+
         public Full()
         {
             InitializeComponent();
@@ -50,15 +55,29 @@ namespace PI_TOP_PROJECT.Forms
         {
             if (OPF.ShowDialog() == DialogResult.OK)
             {
-                doc = DocX.Load(OPF.FileName);
-                MessageBox.Show("Файл добавлен!", OPF.FileName);
-                filename.Text = OPF.FileName;
+                if (OPF.FileName.EndsWith(".doc") == true || OPF.FileName.EndsWith(".docx") == true)
+                {
+                    error = 0;
+                    doc = DocX.Load(OPF.FileName);
+                    MessageBox.Show("Файл добавлен!", OPF.FileName);
+                    filename.Text = OPF.FileName;
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка! Файл не соответствует формату.\nПоменяйте формат файла и попробуйте снова.",
+                        "Неправильный формат файла!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Запуск!", OPF.FileName);
+            pageCount = doc.GetPageCount();
+            MessageBox.Show("Кол-во страниц в документе:" + pageCount);
+            if (pageCount < minStr)
+                ++error;
+            label1.Text += error;
         }
 
         private void button2_Click(object sender, EventArgs e)

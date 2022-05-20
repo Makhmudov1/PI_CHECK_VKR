@@ -124,7 +124,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(537, 88);
+            this.label1.Location = new System.Drawing.Point(159, 277);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(20, 18);
             this.label1.TabIndex = 10;
@@ -134,7 +134,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(390, 88);
+            this.label2.Location = new System.Drawing.Point(12, 277);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(141, 18);
             this.label2.TabIndex = 11;
