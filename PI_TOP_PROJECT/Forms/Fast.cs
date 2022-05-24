@@ -117,9 +117,14 @@ namespace PI_TOP_PROJECT.Forms
                 if (item == "Проверка структуры ВКР")
                 {
                     if (CheckStructure(doc) == true)
+                    {
                         MessageBox.Show("Структура есть!");
+                    }
                     else
+                    {
                         MessageBox.Show("Структуры нет!");
+                        ++error;
+                    }
                 }
                 else if (item == "Проверка объёма работы")
                 {
@@ -127,7 +132,6 @@ namespace PI_TOP_PROJECT.Forms
                     MessageBox.Show("Кол-во страниц в документе:" + pageCount);
                     if (pageCount < minStr)
                         ++error;
-                    label1.Text += error;
                 }
                 else if (item == "Проверка текста")
                 {
@@ -146,6 +150,7 @@ namespace PI_TOP_PROJECT.Forms
                     MessageBox.Show("Функция 6 работает!");
                 }
             }
+            label1.Text += error;
         }
     }
 }
