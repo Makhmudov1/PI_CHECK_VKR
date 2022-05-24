@@ -61,22 +61,28 @@ namespace PI_TOP_PROJECT.Forms
 
             foreach (var paragraph in doc.Paragraphs)
             {
-                foreach (var text in paragraph.MagicText)
+                if (paragraph.StyleId == "1")
                 {
-                        if (paragraph.Text.ToLower().Contains("введение"))
-                            containsIntroduction = true;
+                    foreach (var text in paragraph.MagicText)
+                    {
+                        if (text.formatting?.FontFamily?.Name == "Times New Roman" && text.formatting?.Size == 14)
+                        {
+                            if (paragraph.Text.ToLower().Contains("введение"))
+                                containsIntroduction = true;
 
-                        if (paragraph.Text.ToLower().Contains("глава"))
-                            containsChapters = true;
+                            if (paragraph.Text.ToLower().Contains("глава"))
+                                containsChapters = true;
 
-                        if (paragraph.Text.ToLower().Contains("заключение"))
-                            containsConclusion = true;
+                            if (paragraph.Text.ToLower().Contains("заключение"))
+                                containsConclusion = true;
 
-                        if (paragraph.Text.ToLower().Contains("список литературы"))
-                            containsLiterature = true;
+                            if (paragraph.Text.ToLower().Contains("список литературы"))
+                                containsLiterature = true;
 
-                        if (paragraph.Text.ToLower().Contains("приложение"))
-                            containsApplication = true;
+                            if (paragraph.Text.ToLower().Contains("приложение"))
+                                containsApplication = true;
+                        }
+                    }
                 }
             }
 
