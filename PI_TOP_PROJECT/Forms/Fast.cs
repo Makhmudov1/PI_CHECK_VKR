@@ -18,7 +18,7 @@ namespace PI_TOP_PROJECT.Forms
     {
         int pageCount = 0;
         int error = 0;
-        int minStr = 50;
+        int minStr = 40;
         
         private OpenFileDialog OPF;
         private DocX doc;
@@ -51,6 +51,71 @@ namespace PI_TOP_PROJECT.Forms
             LoadTheme();
         }
 
+        private static bool CheckStructure(DocX doc)
+        {
+            bool containsIntroduction = false;
+            bool containsChapters = false;
+            bool containsConclusion = false;
+            bool containsLiterature = false;
+            bool containsApplication = false;
+
+            foreach (var paragraph in doc.Paragraphs)
+            {
+                foreach (var text in paragraph.MagicText)
+                {
+                        if (paragraph.Text.ToLower().Contains("введение"))
+                            containsIntroduction = true;
+
+                        if (paragraph.Text.ToLower().Contains("глава"))
+                            containsChapters = true;
+
+                        if (paragraph.Text.ToLower().Contains("заключение"))
+                            containsConclusion = true;
+
+                        if (paragraph.Text.ToLower().Contains("список литературы"))
+                            containsLiterature = true;
+
+                        if (paragraph.Text.ToLower().Contains("приложение"))
+                            containsApplication = true;
+                }
+            }
+
+            return containsIntroduction && containsChapters && containsConclusion && containsLiterature && containsApplication;
+        }
+
+        private static bool CheckFormat(string fileName, DocX doc)
+        {
+            foreach (var paragraph in doc.Paragraphs)
+            {
+                foreach (var text in paragraph.MagicText)
+                {
+                    if (text.formatting?.FontFamily?.Name != "Times New Roman" || (text.formatting?.Size != 14 && text.formatting?.Size != 16))
+                    {
+                        paragraph.RemoveText(text.index, text.text.Length);
+
+                        text.formatting.FontColor = System.Drawing.Color.Red;
+                        paragraph.InsertText(text.index, text.text, false, text.formatting);
+
+                        doc.SaveAs(fileName.Replace(".docx", "_marked.docx"));
+                        return false;
+                    }
+
+                    if (text.formatting?.Size == 14 && (paragraph.LineSpacing != 18f || paragraph.IndentationFirstLine != 35.45f)) /* 18f = 1,5 | 35.45f = 1,25*/
+                    {
+                        paragraph.RemoveText(text.index, text.text.Length);
+
+                        text.formatting.FontColor = System.Drawing.Color.Red;
+                        paragraph.InsertText(text.index, text.text, false, text.formatting);
+
+                        doc.SaveAs(fileName.Replace(".docx", "_marked.docx"));
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
             if (OPF.ShowDialog() == DialogResult.OK)
@@ -77,7 +142,10 @@ namespace PI_TOP_PROJECT.Forms
             foreach (var item in checkedListBox1.CheckedItems) {
                 if (item == "Проверка структуры ВКР")
                 {
-                    MessageBox.Show("Функция 1 работает!");
+                    if (CheckStructure(doc) == true)
+                        MessageBox.Show("Структура есть!");
+                    else
+                        MessageBox.Show("Структуры нет!");
                 }
                 else if (item == "Проверка объёма работы")
                 {
@@ -89,7 +157,10 @@ namespace PI_TOP_PROJECT.Forms
                 }
                 else if (item == "Проверка текста")
                 {
-                    MessageBox.Show("Функция 3 работает!");
+                    if (CheckFormat(OPF.FileName, doc) == true)
+                        MessageBox.Show("Документ соответствует ГОСТ!");
+                    else
+                        MessageBox.Show("Документ с неправильным форматированием");
                 }
                 else if (item == "Проверка таблиц/изображений")
                 {
