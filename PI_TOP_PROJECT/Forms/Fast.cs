@@ -89,38 +89,6 @@ namespace PI_TOP_PROJECT.Forms
             return containsIntroduction && containsChapters && containsConclusion && containsLiterature && containsApplication;
         }
 
-        private static bool CheckFormat(string fileName, DocX doc)
-        {
-            foreach (var paragraph in doc.Paragraphs)
-            {
-                foreach (var text in paragraph.MagicText)
-                {
-                    if (text.formatting?.FontFamily?.Name != "Times New Roman" || (text.formatting?.Size != 14 && text.formatting?.Size != 16))
-                    {
-                        paragraph.RemoveText(text.index, text.text.Length);
-
-                        text.formatting.FontColor = System.Drawing.Color.Red;
-                        paragraph.InsertText(text.index, text.text, false, text.formatting);
-
-                        doc.SaveAs(fileName.Replace(".docx", "_marked.docx"));
-                        return false;
-                    }
-
-                    if (text.formatting?.Size == 14 && (paragraph.LineSpacing != 18f || paragraph.IndentationFirstLine != 35.45f)) /* 18f = 1,5 | 35.45f = 1,25*/
-                    {
-                        paragraph.RemoveText(text.index, text.text.Length);
-
-                        text.formatting.FontColor = System.Drawing.Color.Red;
-                        paragraph.InsertText(text.index, text.text, false, text.formatting);
-
-                        doc.SaveAs(fileName.Replace(".docx", "_marked.docx"));
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -163,10 +131,7 @@ namespace PI_TOP_PROJECT.Forms
                 }
                 else if (item == "Проверка текста")
                 {
-                    if (CheckFormat(OPF.FileName, doc) == true)
-                        MessageBox.Show("Документ соответствует ГОСТ!");
-                    else
-                        MessageBox.Show("Документ с неправильным форматированием");
+                    MessageBox.Show("Функция 3 работает!");
                 }
                 else if (item == "Проверка таблиц/изображений")
                 {
