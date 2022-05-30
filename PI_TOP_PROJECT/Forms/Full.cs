@@ -71,12 +71,64 @@ namespace PI_TOP_PROJECT.Forms
             }
         }
 
+
+
+        private static bool CheckStructure(DocX doc)
+        {
+            bool containsIntroduction = false;
+            bool containsChapters = false;
+            bool containsConclusion = false;
+            bool containsLiterature = false;
+            bool containsApplication = false;
+
+            foreach (var paragraph in doc.Paragraphs)
+            {
+                if (paragraph.StyleId == "1")
+                {
+                    foreach (var text in paragraph.MagicText)
+                    {
+                        if (text.formatting?.FontFamily?.Name == "Times New Roman" && text.formatting?.Size == 14)
+                        {
+                            if (paragraph.Text.ToLower().Contains("введение"))
+                                containsIntroduction = true;
+
+                            if (paragraph.Text.ToLower().Contains("глава"))
+                                containsChapters = true;
+
+                            if (paragraph.Text.ToLower().Contains("заключение"))
+                                containsConclusion = true;
+
+                            if (paragraph.Text.ToLower().Contains("список литературы"))
+                                containsLiterature = true;
+
+                            if (paragraph.Text.ToLower().Contains("приложение"))
+                                containsApplication = true;
+                        }
+                    }
+                }
+            }
+
+            return containsIntroduction && containsChapters && containsConclusion && containsLiterature && containsApplication;
+        }
+
+
+
         private void button3_Click(object sender, EventArgs e)
         {
             pageCount = doc.GetPageCount();
             MessageBox.Show("Кол-во страниц в документе:" + pageCount);
             if (pageCount < minStr)
                 ++error;
+
+            if (CheckStructure(doc) == true)
+            {
+                MessageBox.Show("Структура есть!");
+            }
+            else
+            {
+                MessageBox.Show("Структуры нет!");
+                ++error;
+            }
             label1.Text += error;
         }
 
